@@ -20,9 +20,9 @@ I pulled down the sample solution provided in the article linked above and took 
 
 Starting in Visual Studio 2010, support was added for extending the development environment using the Managed Extensibility Framework ([MEF](http://msdn.microsoft.com/en-us/library/dd460648.aspx)). MEF is a framework for adding extensibility to applications in the form of automatically-discovered plugins. It is a part of the .NET framework that you can use it to add extensibility to your own applications. Visual Studio uses MEF to light up the features available depending on the edition and add-ons installed. In order to extend Visual Studio, developers code classes that implement the interface(s) required for hooking into the IDE. The classes are decorated with attributes that indicate to MEF that they represent discoverable plugin implementations. Finally, the developer authors a `vsixmanifest` file that tells Visual Studio how to install the MEF components. A handy IDE is provided by the SDK for creating a manifest file.
 
-<img src="VS2012_TeamExplorer_Extension/new_project_vspackage.PNG" alt="New project" height="50%" width="50%" align="right"> To get my own project started, I fired up a new instance of Visual Studio 2012, and chose `File > New Project` from the menu. I navigated under `Other Project Types` to the `Extensibility` folder that was added by the Visual Studio SDK, and selected `Visual Studio Package`. This is the general project type for extending Visual Studio, and includes the ability to author MEF components.
+To get my own project started, I fired up a new instance of Visual Studio 2012, and chose `File > New Project` from the menu. I navigated under `Other Project Types` to the `Extensibility` folder that was added by the Visual Studio SDK, and selected `Visual Studio Package`. This is the general project type for extending Visual Studio, and includes the ability to author MEF components.
 
-<img src="VS2012_TeamExplorer_Extension/new_project_wizard.PNG" alt="New project" height="50%" width="50%" align="right"> This started a wizard where I selected C# for the project language, chose the option to generate a new strong-name signing key, and entered identifying information about my extension. I created a simple icon, pulled together from the standard icons for Find and Work Item available in the Visual Studio 2012 Image Library (available from [Microsoft Download Center](http://www.microsoft.com/en-us/download/details.aspx?id=35825)). In the list default components, I selected Menu Item, because my plugin will expose its function through a context menu item on a Work Item Query. I gave the command a friendly name and ID. Upon completion of the wizard, I was presented with the `vsixmanifest` editor.
+This started a wizard where I selected C# for the project language, chose the option to generate a new strong-name signing key, and entered identifying information about my extension. I created a simple icon, pulled together from the standard icons for Find and Work Item available in the Visual Studio 2012 Image Library (available from [Microsoft Download Center](http://www.microsoft.com/en-us/download/details.aspx?id=35825)). In the list default components, I selected Menu Item, because my plugin will expose its function through a context menu item on a Work Item Query. I gave the command a friendly name and ID. Upon completion of the wizard, I was presented with the `vsixmanifest` editor.
 
 The last thing I needed to do was add an Asset indicating that my package was going to provide MEF components. On the Assets tab of the manifest editor, I clicked `New`, chose `Microsoft.VisualStudio.MefComponent` for the Type, and indicated my `WorkItemSearchReplace` project as the source.
 
@@ -53,7 +53,7 @@ Here are the relevant changed sections of the `WorkItemSearchReplace.vsct` file:
 </GuidSymbol>
 ```
 
-<img src="VS2012_TeamExplorer_Extension/wit_query_contextmenu.PNG" alt="Context menu" height="50%" width="50%" align="right">This results in my new "Search and Replace" appearing the the context menu when a Work Item Query is right-clicked in Team Explorer.
+This results in my new "Search and Replace" appearing the the context menu when a Work Item Query is right-clicked in Team Explorer.
 
 ### Displaying a New Team Explorer Page
 
@@ -90,9 +90,7 @@ private void OnSearchReplaceWorkItems(object sender, EventArgs e)
 }
 ```
 
-<img src="VS2012_TeamExplorer_Extension/teamexplorer_newpage.PNG" alt="Context menu" height="50%" width="50%" align="left">When my Search and Replace command is invoked, the new (not-yet-functional) page is displayed in the Team Explorer pane.
-
-Now that the basic user interface is hooked up, it's time to fill in the functionality. When the Preview button is clicked, we'll scan through the fields of work items returned by the query and display a list of the work items that will be affected by the change. The user will verify that the list looks correct, and then click the Execute button to apply the change.
+When my Search and Replace command is invoked, the new (not-yet-functional) page is displayed in the Team Explorer pane. Now that the basic user interface is hooked up, it's time to fill in the functionality. When the Preview button is clicked, we'll scan through the fields of work items returned by the query and display a list of the work items that will be affected by the change. The user will verify that the list looks correct, and then click the Execute button to apply the change.
 
 ## Work Item Manipulation
 
@@ -117,11 +115,7 @@ The `NavigateToPage` method accepts an `object` for its second parameter, which 
 
 I added some controls to the user control for displaying the selected query, and called the TFS API to get the number of work items returned by the query. The Search and Replace term TextBoxes and the Preview and Execute buttons were all bound to the ViewModel.
 
-Here is a class diagram for the ViewModel:
-
-<img src="VS2012_TeamExplorer_Extension/viewmodel_classdiagram.PNG"/>
-
-And the relevant code that hooks up the commands and gets the query count information via the TFS API:
+The relevant code that hooks up the commands and gets the query count information via the TFS API:
 
 ```
 public WorkItemSearchReplaceViewModel(QueryItem queryItem, ITeamFoundationContext context)
@@ -216,9 +210,7 @@ Several things to note about the `Preview` method:
 
 * The Page subscribes to `PropertyChanged` from the ViewModel and sets its own `IsBusy` property to match the ViewModel's. This hooks into Team Explorer's extensibility model and causes an indefinite progress bar to be displayed at the top of the pane while work is being done in the background.
 
-I added a couple of list boxes to the `WorkItemSearchReplaceView` user control and bound them to the `PreviewWorkItems` and `PreviewFields` collections, resulting in the following:
-
-<img src="VS2012_TeamExplorer_Extension/preview_binding.PNG"/>
+I added a couple of list boxes to the `WorkItemSearchReplaceView` user control and bound them to the `PreviewWorkItems` and `PreviewFields` collections.
 
 ### Executing the Work Item Changes
 
