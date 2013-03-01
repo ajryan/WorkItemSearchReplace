@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CommandTable xmlns="http://schemas.microsoft.com/VisualStudio/2005-10-18/CommandTable" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <!--This is the file that defines the IDs for all the commands exposed by VisualStudio. -->
+  <Extern href="stdidcmd.h"/>
+
+  <!--This header contains the command ids for the menus provided by the shell. -->
+  <Extern href="vsshlids.h"/>
+
+  <Commands package="guidWorkItemSearchReplacePkg">
+    <Groups>
+      <Group guid="guidWorkItemSearchReplaceCmdSet" id="WorkItemSearchReplaceMenuGroup" priority="0x200">
+        <Parent guid="WorkItemTrackingGuid" id="TEQuery"/>
+      </Group>
+    </Groups>
+
+    <Buttons>
+      <Button guid="guidWorkItemSearchReplaceCmdSet" id="cmdidSearchAndReplaceWorkItems" priority="0x0100" type="Button">
+        <Parent guid="guidWorkItemSearchReplaceCmdSet" id="WorkItemSearchReplaceMenuGroup" />
+        <Icon guid="guidImages" id="bmpPicSearch" />
+        <Strings>
+          <CommandName>cmdidSearchAndReplaceWorkItems</CommandName>
+          <ButtonText>Search and Replace</ButtonText>
+        </Strings>
+      </Button>
+    </Buttons>
+
+    <Bitmaps>
+      <Bitmap guid="guidImages" href="Resources\Images.png" usedList="bmpPic1, bmpPic2, bmpPicSearch, bmpPicX, bmpPicArrows"/>
+    </Bitmaps>
+  </Commands>
+
+  <Symbols>
+    <!-- Package GUID -->
+    <GuidSymbol name="guidWorkItemSearchReplacePkg" value="{c82069d2-5e08-4679-a566-0b61326d3465}" />
+
+    <!-- Our command set GUID and IDs -->
+    <GuidSymbol name="guidWorkItemSearchReplaceCmdSet" value="{c084bc8f-5261-42d8-9699-24bc1093d8b6}">
+      <IDSymbol name="WorkItemSearchReplaceMenuGroup" value="0x1020" />
+      <IDSymbol name="cmdidSearchAndReplaceWorkItems" value="0x0100" />
+    </GuidSymbol>
+
+    <!-- GUID and Command ID for Work Item Query context menu  -->
+    <GuidSymbol name="WorkItemTrackingGuid" value="{2dc8d6bb-916c-4b80-9c52-fd8fc371acc2}">
+      <IDSymbol name="TEQuery" value="0x300" />
+    </GuidSymbol>
+
+    <GuidSymbol name="guidImages" value="{a53352de-d039-463c-9410-5c552df0be2b}" >
+      <IDSymbol name="bmpPic1" value="1" />
+      <IDSymbol name="bmpPic2" value="2" />
+      <IDSymbol name="bmpPicSearch" value="3" />
+      <IDSymbol name="bmpPicX" value="4" />
+      <IDSymbol name="bmpPicArrows" value="5" />
+      <IDSymbol name="bmpPicStrikethrough" value="6" />
+    </GuidSymbol>
+  </Symbols>
+
+</CommandTable>
